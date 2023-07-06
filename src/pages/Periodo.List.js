@@ -27,7 +27,7 @@ const Periodos = () => {
         setListaPeriodos([periodo]);
       } else {
         periodo.id = listaPeriodos.length + 1;
-        setListaPeriodos([...listaPeriodos, periodo]);
+        setListaPeriodos([...listaPeriodos, { periodo: '', materias: '', id: 1}]);
       }
     }
 
@@ -128,43 +128,33 @@ const Periodos = () => {
                 </tr>
               </thead>
               <tbody>
-                {listaPeriodos.length === 0 ?
-                // Cannot read properties of null (reading 'id')
-                  (
+                {listaPeriodos.map((periodoAux) => {
+                  return (
                     <tr>
-                      <td colSpan="3">
-                        Nenhum período cadastrado!
+                      <td>{periodoAux.id}</td>
+                      <td>{periodoAux.periodo}</td>
+                      <td>{periodoAux.materias}</td>
+                      <td>
+                        <Button
+                          onClick={() => {
+                            onEdit(periodoAux);
+                          }}
+                          variant="success"
+                        >
+                          Editar
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            onRemove(periodoAux);
+                          }}
+                          variant="danger"
+                        >
+                          Remover
+                        </Button>
                       </td>
                     </tr>
-                  ) :
-                  listaPeriodos.map((periodoAux) => {
-                    return (
-                      <tr>
-                        <td>{periodoAux.id}</td>
-                        <td>{periodoAux.periodo}</td>
-                        <td>{periodoAux.materias}</td>
-                        <td>
-                          <Button
-                            onClick={() => {
-                              onEdit(periodoAux);
-                            }}
-                            variant="success"
-                          >
-                            Editar
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              onRemove(periodoAux);
-                            }}
-                            variant="danger"
-                          >
-                            Remover
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                
+                  );
+                })
                 }
               </tbody>
             </Table>
