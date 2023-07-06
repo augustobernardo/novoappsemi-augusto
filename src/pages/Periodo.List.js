@@ -12,17 +12,6 @@ const Periodos = () => {
   const [listaPeriodos, setListaPeriodos] = useState([]);
   const [periodo, setPeriodo] = useState({ periodo: "", materias: "", id: 0 });
   const [modeForm, setModeForm] = useState("create");
-  const [validated, setValidated] = useState(false);
-
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    setValidated(true);
-  };
 
   useEffect(() => {
     const objStr = localStorage.getItem("lProfessor");
@@ -32,7 +21,7 @@ const Periodos = () => {
 
   const onSave = () => {
     if (modeForm === "create") {
-      
+
       if (listaPeriodos === null) {
         periodo.id = 1;
         setListaPeriodos([periodo]);
@@ -59,7 +48,7 @@ const Periodos = () => {
 
   const onNew = () => {
     setModeForm("create");
-    setPeriodo({ periodo:"", materias:"" });
+    setPeriodo({ periodo: "", materias: "" });
   };
 
   const onRemove = (pRemove) => {
@@ -84,14 +73,14 @@ const Periodos = () => {
                   <Accordion.Header>Cadastro de Períodos</Accordion.Header>
                   <Accordion.Body>
                     <Container>
-                      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                      <Form>
                         <Form.Group className="mb-3" controlId="formPeriodo">
                           <Form.Label>Período:</Form.Label>
                           <Form.Control
                             required
                             value={periodo.periodo}
                             onChange={({ target }) => {
-                              setPeriodo({...periodo, periodo: target.value });
+                              setPeriodo({ ...periodo, periodo: target.value });
                             }}
                             type="number"
                             placeholder="3" />
@@ -107,7 +96,7 @@ const Periodos = () => {
                             required
                             value={periodo.materias}
                             onChange={({ target }) => {
-                              setPeriodo({...periodo, materias: target.value });
+                              setPeriodo({ ...periodo, materias: target.value });
                             }}
                             type="text"
                             placeholder="Matérias presentes no período informado" />
@@ -139,33 +128,44 @@ const Periodos = () => {
                 </tr>
               </thead>
               <tbody>
-              {listaPeriodos.map((periodoAux) => {
-                return (
-                  <tr>
-                    <td>{periodoAux.id}</td>
-                    <td>{periodoAux.periodo}</td>
-                    <td>{periodoAux.materias}</td>
-                    <td>
-                      <Button
-                        onClick={() => {
-                          onEdit(periodoAux);
-                        }}
-                        variant="success"
-                      >
-                        Editar
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          onRemove(periodoAux);
-                        }}
-                        variant="danger"
-                      >
-                        Remover
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              })}
+                {listaPeriodos.length === 0 ?
+                // Cannot read properties of null (reading 'id')
+                  (
+                    <tr>
+                      <td colSpan="3">
+                        Nenhum período cadastrado!
+                      </td>
+                    </tr>
+                  ) :
+                  listaPeriodos.map((periodoAux) => {
+                    return (
+                      <tr>
+                        <td>{periodoAux.id}</td>
+                        <td>{periodoAux.periodo}</td>
+                        <td>{periodoAux.materias}</td>
+                        <td>
+                          <Button
+                            onClick={() => {
+                              onEdit(periodoAux);
+                            }}
+                            variant="success"
+                          >
+                            Editar
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              onRemove(periodoAux);
+                            }}
+                            variant="danger"
+                          >
+                            Remover
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                
+                }
               </tbody>
             </Table>
           </Col>
