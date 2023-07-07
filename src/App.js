@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -14,27 +13,6 @@ import Sala from './pages/Sala.List.js';
 
 
 function App() {
-  // const [user, setUser] = useState({})
-  // const [listaUser, setListaUser] = useState([])
-
-
-  // useEffect(() => {
-  //   console.log('chamou o useEffect!')
-  // }, [user, listaUser])
-
-
-  // const onChangeInput = (param) => {
-  //   const { target } = param;
-  //   // console.log(target.value)
-  //   setUser({ ...user, name: target.value })
-  // }
-
-  // const onSave = () => {
-  //   user.id = listaUser.length + 1;
-  //   setListaUser([...listaUser, user]);
-  //   setUser({ name: '', id: -1 })
-  // }
-
   return (
     <BrowserRouter>
       <Routes>

@@ -82,15 +82,14 @@ const Salas = () => {
 
   return (
     <Container>
-      <br />
       <Row>
-        <h1>Salas</h1>
+        <h1 class='title'>Salas</h1>
       </Row>
       <Row>
         <Col>
           <Card>
             <Card.Header>
-              <h4>Cadastro de Salas</h4>
+              <h4 class='titleCard'>Cadastro de Salas</h4>
             </Card.Header>
             <Card.Body>
               <Container>
@@ -157,9 +156,8 @@ const Salas = () => {
           </Card>
         </Col>
       </Row>
-      <br />
       <Row>
-        <h4>Lista de Salas:</h4>
+        <h4 class='titleTable'>Lista de Salas:</h4>
       </Row>
       <Row>
         <Col>
@@ -180,7 +178,7 @@ const Salas = () => {
                   <td>{salaAux.sala}</td>
                   <td>{salaAux.curso}</td>
                   <td>{salaAux.periodo}º Período</td>
-                  <td>
+                  <td class="buttonTable">
                     <Button
                       onClick={() => {
                         onEdit(salaAux);

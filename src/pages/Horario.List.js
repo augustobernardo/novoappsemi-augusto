@@ -106,15 +106,14 @@ const Horario = () => {
 
   return (
     <Container>
-      <br />
       <Row>
-        <h1>Horarios</h1>
+        <h1 class='title'>Horarios</h1>
       </Row>
       <Row>
         <Col>
           <Card>
             <Card.Header>
-              <h4>Cadastro de Horarios</h4>
+              <h4 class='titleCard'>Cadastro de Horarios</h4>
             </Card.Header>
             <Card.Body>
               <Container>
@@ -216,9 +215,8 @@ const Horario = () => {
           </Card>
         </Col>
       </Row>
-      <br />
       <Row>
-        <h4>Lista de Horarios:</h4>
+        <h4 class='titleTable'>Lista de Horarios:</h4>
       </Row>
       <Row>
         <Col>
@@ -243,7 +241,7 @@ const Horario = () => {
                   <td>{horarioAux.sala}</td>
                   <td>{horarioAux.curso}</td>
                   <td>{horarioAux.periodo}º Período</td>
-                  <td>
+                  <td class="buttonTable">
                     <Button
                       onClick={() => {
                         onEdit(horarioAux);

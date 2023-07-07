@@ -59,15 +59,14 @@ const Periodos = () => {
 
   return (
     <Container>
-      <br />
       <Row>
-        <h1>Períodos</h1>
+        <h1 class='title'>Períodos</h1>
       </Row>
       <Row>
         <Col>
           <Card>
             <Card.Header>
-              <h4>Cadastro de Período</h4>
+              <h4 class='titleCard'>Cadastro de Período</h4>
             </Card.Header>
             <Card.Body>
               <Container>
@@ -110,9 +109,8 @@ const Periodos = () => {
           </Card>
         </Col>
       </Row>
-      <br />
       <Row>
-        <h4>Lista de Professores:</h4>
+        <h4 class='titleTable'>Lista de Professores:</h4>
       </Row>
       <Row>
         <Col>
@@ -131,7 +129,7 @@ const Periodos = () => {
                   <td>{periodoAux.id}</td>
                   <td>{periodoAux.periodo}º Período</td>
                   <td>{periodoAux.materias}</td>
-                  <td>
+                  <td class="buttonTable">
                     <Button
                       onClick={() => {
                         onEdit(periodoAux);

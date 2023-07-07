@@ -97,15 +97,14 @@ const Desafios = () => {
 
   return (
     <Container>
-      <br />
       <Row>
-        <h1>Desafios</h1>
+        <h1 class='title'>Desafios</h1>
       </Row>
       <Row>
         <Col>
           <Card>
             <Card.Header>
-              <h4>Cadastro de Desafios</h4>
+              <h4 class='titleCard'>Cadastro de Desafios</h4>
             </Card.Header>
             <Card.Body>
               <Container>
@@ -191,9 +190,8 @@ const Desafios = () => {
           </Card>
         </Col>
       </Row>
-      <br />
       <Row>
-        <h4>Lista de Desafios:</h4>
+        <h4 class='titleTable'>Lista de Desafios:</h4>
       </Row>
       <Row>
         <Col>
@@ -216,7 +214,7 @@ const Desafios = () => {
                   <td>{desafioAux.professor}</td>
                   <td>{desafioAux.curso}</td>
                   <td>{desafioAux.periodo}° Período</td>
-                  <td>
+                  <td class="buttonTable">
                     <Button
                       onClick={() => {
                         onEdit(desafioAux);

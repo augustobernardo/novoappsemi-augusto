@@ -11,3 +11,45 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.buttonTable {
+  display: flex;
+  gap: 10px;
+}
+
+.title .titleTable .titleCard {
+  font-family: "Roboto", sans-serif;
+}
+
+.title {
+  padding-top: 1rem;
+}
+
+.titleTable {
+  padding-top: 2rem;
+}
+
+td {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.h3Coordenador {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.welcome {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.text .textTwo{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 1rem;
+}
+
+.textTwo {
+  font-weight: bold;
+}

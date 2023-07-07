@@ -9,7 +9,6 @@ import {
   Card
 } from "react-bootstrap";
 
-
 const Professor = () => {
 
   const [listaProf, setListaProf] = useState([]);
@@ -58,15 +57,14 @@ const Professor = () => {
 
   return (
     <Container>
-      <br />
       <Row>
-        <h1>Professores</h1>
+        <h1 class='title'>Professores</h1>
       </Row>
       <Row>
         <Col>
           <Card>
             <Card.Header>
-              <h4>Cadastrar Professor</h4>
+              <h4 class='titleCard'>Cadastrar Professor</h4>
             </Card.Header>
             <Card.Body>
               <Container>
@@ -110,9 +108,8 @@ const Professor = () => {
 
         </Col>
       </Row>
-      <br />
       <Row>
-        <h4>Lista de Professores</h4>
+        <h4 class='titleTable'>Lista de Professores</h4>
       </Row>
       <Row>
         <Col>
@@ -131,7 +128,7 @@ const Professor = () => {
                   <td>{profAux.id}</td>
                   <td>{profAux.name}</td>
                   <td>{profAux.cpf}</td>
-                  <td>
+                  <td class="buttonTable">
                     <Button
                       onClick={() => {
                         onEdit(profAux);

@@ -1,16 +1,14 @@
 import { Outlet } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import NavDropdown from "react-bootstrap/NavDropdown";
-
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-
+import "../index.css";
 const Layout = () => {
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" data-bs-theme="dark" className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+          <Navbar.Brand href="/">Sistema de Ensalamento</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -24,7 +22,7 @@ const Layout = () => {
           </Navbar.Collapse>
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-              Olá, <b>Coordenador</b>!
+              Olá, <b>Coordenador (a)</b>!
             </Navbar.Text>
           </Navbar.Collapse>
         </Container>
