@@ -96,7 +96,7 @@ const Horario = () => {
     setHorario({ ...horario, curso: event.target.value });
   };
 
-  const hanldeProfChange = (event) => {
+  const handleProfChange = (event) => {
     setHorario({ ...horario, professor: event.target.value });
   };
 
@@ -128,16 +128,16 @@ const Horario = () => {
                         setHorario({ ...horario, horario: target.value });
                       }}
                       type="time"
-                      placeholder="Insira a sala aqui"
+                      placeholder="Insira o Horário aqui"
                     />
                   </Form.Group>
 
                   <Form.Label>Professor:</Form.Label>
                   <Form.Group className="mb-3" controlId="formSalas">
                     <Form.Select
-                      aria-label="Selecione a sala"
+                      aria-label="Selecione o professor que dará a aula"
                       value={horario.professor}
-                      onChange={hanldeProfChange}
+                      onChange={handleProfChange}
                     >
                       <option value="">Selecione o professor que dará a aula</option>
                       {
@@ -189,11 +189,11 @@ const Horario = () => {
                   <Form.Label>Período:</Form.Label>
                   <Form.Group className="mb-3" controlId="formPeriodo">
                     <Form.Select
-                      aria-label="Selecione a periodo que usará a sala"
+                      aria-label="Selecione o periodo que usará a sala"
                       value={horario.periodo}
                       onChange={handlePeriodoChange}
                     >
-                      <option value="">Selecione a periodo que usará a sala</option>
+                      <option value="">Selecione o periodo que usará a sala</option>
                       {
                         listaPeriodo.map((periodo) => (
                           <option key={periodo.id} value={periodo.periodo}>
