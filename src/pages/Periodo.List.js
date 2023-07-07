@@ -129,7 +129,7 @@ const Periodos = () => {
               {listaPeriodos.map((periodoAux) => (
                 <tr key={periodoAux.id}>
                   <td>{periodoAux.id}</td>
-                  <td>{periodoAux.periodo}</td>
+                  <td>{periodoAux.periodo}º Período</td>
                   <td>{periodoAux.materias}</td>
                   <td>
                     <Button

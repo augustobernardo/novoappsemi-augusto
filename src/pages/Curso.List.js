@@ -10,7 +10,6 @@ import {
 } from "react-bootstrap";
 
 const Cursos = () => {
-
   const [listaCursos, setListaCursos] = useState([]);
   const [curso, setCurso] = useState({ curso: "", periodo: "", id: 0 });
   const [modeForm, setModeForm] = useState("create");
@@ -21,7 +20,10 @@ const Cursos = () => {
     const objLista = JSON.parse(objStr);
     setListaCursos(objLista || []);
 
-    const listaPeriodosAux = localStorage.lPeriodo === undefined ? [] : JSON.parse(localStorage.lPeriodo);
+    const listaPeriodosAux =
+      localStorage.lPeriodo === undefined
+        ? []
+        : JSON.parse(localStorage.lPeriodo);
     setListaPeriodo(listaPeriodosAux || []);
   }, []);
 
@@ -49,7 +51,7 @@ const Cursos = () => {
 
   const onNew = () => {
     setModeForm("create");
-    setCurso({ curso: "", periodo: ""});
+    setCurso({ curso: "", periodo: "" });
   };
 
   const onRemove = (pRemove) => {
@@ -62,6 +64,9 @@ const Cursos = () => {
     onNew();
   };
 
+  const handlePeriodoChange = (event) => {
+    setCurso({ ...curso, periodo: event.target.value });
+  };
 
   return (
     <Container>
@@ -93,20 +98,18 @@ const Cursos = () => {
 
                   <Form.Label>Período:</Form.Label>
                   <Form.Group className="mb-3" controlId="formPeriodo">
-                    <Form.Select aria-label="Selecione a periodo do curso">
+                    <Form.Select
+                      aria-label="Selecione a periodo do curso"
+                      value={curso.periodo}
+                      onChange={handlePeriodoChange}
+                    >
                       <option value="">Selecione o período do curso</option>
                       {
-                        listaPeriodo.map((periodo) => {
-                          return (
-                            <option key={periodo.id} value={periodo.periodo}
-                              onChange={({ target }) => {
-                                  setCurso({ ...curso, periodo: target.value });
-                                }
-                              }>
-                              {periodo.periodo}
-                            </option>
-                          )
-                        })
+                      listaPeriodo.map((periodo) => (
+                        <option key={periodo.id} value={periodo.periodo}>
+                          {periodo.periodo}º Período
+                        </option>
+                      ))
                       }
                     </Form.Select>
                   </Form.Group>
@@ -143,7 +146,7 @@ const Cursos = () => {
                 <tr key={cursoAux.id}>
                   <td>{cursoAux.id}</td>
                   <td>{cursoAux.curso}</td>
-                  <td>{cursoAux.periodo}</td>
+                  <td>{cursoAux.periodo}º Período</td>
                   <td>
                     <Button
                       onClick={() => {
@@ -170,6 +173,6 @@ const Cursos = () => {
       </Row>
     </Container>
   );
-}
+};
 
 export default Cursos;

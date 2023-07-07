@@ -9,129 +9,197 @@ import {
   Card
 } from "react-bootstrap";
 
-const Horarios = () => {
-
-  const [listaSalas, setListaSalas] = useState([]);
-  const [sala, setSala] = useState({ curso: "", sala: "", periodo: "", id: 0 });
+const Horario = () => {
+  const [listaHorarios, setListaHorarios] = useState([]);
+  const [horario, setHorario] = useState({ horario: "", sala: "", professor: "", curso: "", periodo: "", id: 0 });
   const [modeForm, setModeForm] = useState("create");
-  const [listaPeriodos, setListaPeriodos] = useState([]);
-  const [listaCurso, setListaCurso] = useState([]);
+  const [listaPeriodo, setListaPeriodo] = useState([]);
+  const [listaCursos, setListaCursos] = useState([]);
+  const [listaSalas, setListaSalas] = useState([]);
+  const [listaProfessores, setListaProfessores] = useState([]);
 
   useEffect(() => {
-    const objStr = localStorage.getItem("lSala");
+    const objStr = localStorage.getItem("lHorario");
     const objLista = JSON.parse(objStr);
-    setListaSalas(objLista || []);
+    setListaHorarios(objLista || []);
 
-    const listaPeriodosAux = localStorage.lPeriodo === undefined ? [] : JSON.parse(localStorage.lPeriodo);
-    setListaPeriodos(listaPeriodosAux || []);
+    const listaPeriodosAux =
+      localStorage.lPeriodo === undefined
+        ? []
+        : JSON.parse(localStorage.lPeriodo);
+    setListaPeriodo(listaPeriodosAux || []);
 
-    const listaCursoAux =  localStorage.lCurso === undefined ? [] : JSON.parse(localStorage.lCurso);
-    setListaCurso(listaCursoAux || []);
+    const listaCursosAux =
+      localStorage.lCurso === undefined
+        ? []
+        : JSON.parse(localStorage.lCurso);
+    setListaCursos(listaCursosAux || []);
 
+    const listaSalasAux =
+      localStorage.lSala === undefined
+        ? []
+        : JSON.parse(localStorage.lSala);
+    setListaSalas(listaSalasAux || []);
+
+    const listaProfAux =
+      localStorage.lProfessor === undefined
+        ? []
+        : JSON.parse(localStorage.lProfessor);
+    setListaProfessores(listaProfAux || []);
   }, []);
 
   const onSave = () => {
     if (modeForm === "create") {
-      sala.id = listaSalas.length + 1;
-      listaSalas.push(sala);
-      setListaSalas([...listaSalas]);
+      horario.id = listaHorarios.length + 1;
+      listaHorarios.push(horario);
+      setListaHorarios([...listaHorarios]);
     }
 
     if (modeForm === "edit") {
-      const salaAux = listaSalas.find((p) => p.id === sala.id);
-      salaAux.curso = sala.curso;
-      salaAux.sala = sala.sala;
-      salaAux.periodo = sala.periodo;
-      setListaSalas([...listaSalas]);
+      const horarioAux = listaHorarios.find((p) => p.id === horario.id);
+      horarioAux.horario = horario.horario;
+      horarioAux.sala = horario.sala;
+      horarioAux.curso = horario.curso;
+      horarioAux.periodo = horario.periodo;
+      horarioAux.professor = horario.professor;
+      setListaHorarios([...listaHorarios]);
     }
-    localStorage.setItem("lSala", JSON.stringify(listaSalas));
+    localStorage.setItem("lHorario", JSON.stringify(listaHorarios));
     onNew();
   };
 
-  const onEdit = (salaAux) => {
-    setSala(salaAux);
+  const onEdit = (horarioAux) => {
+    setHorario(horarioAux);
     setModeForm("edit");
   };
 
   const onNew = () => {
     setModeForm("create");
-    setSala({ curso: "", sala: "", periodo: "" });
+    setHorario({ horario: "", sala: "", professor: "", curso: "", periodo: "" });
   };
 
   const onRemove = (pRemove) => {
-    const updatedList = listaSalas.filter((p) => p.id !== pRemove.id);
-    setListaSalas(updatedList);
-    localStorage.setItem("lSala", JSON.stringify(updatedList));
+    const updatedList = listaHorarios.filter((p) => p.id !== pRemove.id);
+    setListaHorarios(updatedList);
+    localStorage.setItem("lHorario", JSON.stringify(updatedList));
   };
 
   const onCancel = () => {
     onNew();
   };
 
+  const handlePeriodoChange = (event) => {
+    setHorario({ ...horario, periodo: event.target.value });
+  };
+
+  const handleCursoChange = (event) => {
+    setHorario({ ...horario, curso: event.target.value });
+  };
+
+  const hanldeProfChange = (event) => {
+    setHorario({ ...horario, professor: event.target.value });
+  };
+
+  const handleSalaChange = (event) => {
+    setHorario({ ...horario, sala: event.target.value });
+  };
 
   return (
     <Container>
       <br />
       <Row>
-        <h1>Salas</h1>
+        <h1>Horarios</h1>
       </Row>
       <Row>
         <Col>
           <Card>
             <Card.Header>
-              <h4>Cadastro de Salas</h4>
+              <h4>Cadastro de Horarios</h4>
             </Card.Header>
             <Card.Body>
               <Container>
                 <Form>
-                  <Form.Group className="mb-3" controlId="formCurso">
-                    <Form.Label>Sala:</Form.Label>
+                  <Form.Group className="mb-3" controlId="Horário">
+                    <Form.Label>Horário:</Form.Label>
                     <Form.Control
                       required
-                      value={sala.curso}
+                      value={horario.horario}
                       onChange={({ target }) => {
-                        setSala({ ...sala, curso: target.value });
+                        setHorario({ ...horario, horario: target.value });
                       }}
-                      type="text"
-                      placeholder="Insira aqui a sala"
+                      type="time"
+                      placeholder="Insira a sala aqui"
                     />
                   </Form.Group>
 
-                  <Form.Label>Curso:</Form.Label>
-                  <Form.Group className="mb-3" controlId="formPeriodo">
-                    <Form.Select aria-label="Selecione a periodo do curso">
-                      <option value="">Selecione o curso</option>
+                  <Form.Label>Professor:</Form.Label>
+                  <Form.Group className="mb-3" controlId="formSalas">
+                    <Form.Select
+                      aria-label="Selecione a sala"
+                      value={horario.professor}
+                      onChange={hanldeProfChange}
+                    >
+                      <option value="">Selecione o professor que dará a aula</option>
                       {
-                        listaCurso.map((cursoAux) => {
-                          return (
-                            <option key={cursoAux.id} value={cursoAux.curso}
-                              onChange={
-                                ({ target }) => {
-                                  setSala({ ...sala, curso: target.value });
-                                }}>
-                              {cursoAux.curso}
-                            </option>
-                          )
-                        })
+                        listaProfessores.map((prof) => (
+                        <option key={prof.id} value={prof.name}>
+                          {prof.name}
+                        </option>
+                      ))
+                      }
+                    </Form.Select>
+                  </Form.Group>
+
+                  <Form.Label>Sala:</Form.Label>
+                  <Form.Group className="mb-3" controlId="formSalas">
+                    <Form.Select
+                      aria-label="Selecione a sala"
+                      value={horario.sala}
+                      onChange={handleSalaChange}
+                    >
+                      <option value="">Selecione a sala que será utilizada</option>
+                      {
+                        listaSalas.map((sala) => (
+                          <option key={sala.id} value={sala.sala}>
+                            Sala {sala.sala}
+                          </option>
+                        ))
+                      }
+                    </Form.Select>
+                  </Form.Group>
+
+                  <Form.Label>Curso:</Form.Label>
+                  <Form.Group className="mb-3" controlId="formCursos">
+                    <Form.Select
+                      aria-label="Selecione a curso que usará a sala"
+                      value={horario.curso}
+                      onChange={handleCursoChange}
+                    >
+                      <option value="">Selecione a curso ficará na sala</option>
+                      {
+                        listaCursos.map((curso) => (
+                          <option key={curso.id} value={curso.curso}>
+                            {curso.curso}
+                          </option>
+                        ))
                       }
                     </Form.Select>
                   </Form.Group>
 
                   <Form.Label>Período:</Form.Label>
                   <Form.Group className="mb-3" controlId="formPeriodo">
-                    <Form.Select aria-label="Selecione a periodo do curso">
-                      <option value="">Selecione o período do curso</option>
+                    <Form.Select
+                      aria-label="Selecione a periodo que usará a sala"
+                      value={horario.periodo}
+                      onChange={handlePeriodoChange}
+                    >
+                      <option value="">Selecione a periodo que usará a sala</option>
                       {
-                        listaPeriodos.map((periodoAux) => {
-                          return (
-                            <option key={periodoAux.id} value={periodoAux.periodo}
-                              onChange={(target) => {
-                                setSala({ ...sala, periodo: target.value });
-                              }}>
-                              {periodoAux.periodo}
-                            </option>
-                          )
-                        })
+                        listaPeriodo.map((periodo) => (
+                          <option key={periodo.id} value={periodo.periodo}>
+                            {periodo.periodo}º Período
+                          </option>
+                        ))
                       }
                     </Form.Select>
                   </Form.Group>
@@ -150,7 +218,7 @@ const Horarios = () => {
       </Row>
       <br />
       <Row>
-        <h4>Lista de Salas:</h4>
+        <h4>Lista de Horarios:</h4>
       </Row>
       <Row>
         <Col>
@@ -159,22 +227,26 @@ const Horarios = () => {
               <tr>
                 <th>#</th>
                 <th>Curso</th>
+                <th>Professor</th>
                 <th>Sala</th>
+                <th>Curso</th>
                 <th>Período</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {listaSalas.map((cursoAux) => (
-                <tr key={cursoAux.id}>
-                  <td>{cursoAux.id}</td>
-                  <td>{cursoAux.curso}</td>
-                  <td>{cursoAux.sala}</td>
-                  <td>{cursoAux.periodo}</td>
+              {listaHorarios.map((horarioAux) => (
+                <tr key={horarioAux.id}>
+                  <td>{horarioAux.id}</td>
+                  <td>{horarioAux.horario}</td>
+                  <td>{horarioAux.professor}</td>
+                  <td>{horarioAux.sala}</td>
+                  <td>{horarioAux.curso}</td>
+                  <td>{horarioAux.periodo}º Período</td>
                   <td>
                     <Button
                       onClick={() => {
-                        onEdit(cursoAux);
+                        onEdit(horarioAux);
                       }}
                       variant="primary"
                     >
@@ -182,7 +254,7 @@ const Horarios = () => {
                     </Button>
                     <Button
                       onClick={() => {
-                        onRemove(cursoAux);
+                        onRemove(horarioAux);
                       }}
                       variant="danger"
                     >
@@ -197,6 +269,6 @@ const Horarios = () => {
       </Row>
     </Container>
   );
-}
+};
 
-export default Horarios;
+export default Horario;
