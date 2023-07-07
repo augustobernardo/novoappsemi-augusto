@@ -1,34 +1,30 @@
-import Table from "react-bootstrap/Table";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { useState, useEffect } from "react";
-import Accordion from 'react-bootstrap/Accordion';
+import React, { useState, useEffect } from "react";
+import {
+  Table,
+  Container,
+  Row,
+  Col,
+  Button,
+  Form,
+  Card
+} from "react-bootstrap";
 
 const Periodos = () => {
-
   const [listaPeriodos, setListaPeriodos] = useState([]);
   const [periodo, setPeriodo] = useState({ periodo: "", materias: "", id: 0 });
   const [modeForm, setModeForm] = useState("create");
 
   useEffect(() => {
-    const objStr = localStorage.getItem("lProfessor");
+    const objStr = localStorage.getItem("lPeriodo");
     const objLista = JSON.parse(objStr);
-    setListaPeriodos([objLista]);
+    setListaPeriodos(objLista || []);
   }, []);
 
   const onSave = () => {
     if (modeForm === "create") {
-
-      if (listaPeriodos === null) {
-        periodo.id = 1;
-        setListaPeriodos([periodo]);
-      } else {
-        periodo.id = listaPeriodos.length + 1;
-        setListaPeriodos([...listaPeriodos, { periodo: '', materias: '', id: 1}]);
-      }
+      periodo.id = listaPeriodos.length + 1;
+      listaPeriodos.push(periodo);
+      setListaPeriodos([...listaPeriodos]);
     }
 
     if (modeForm === "edit") {
@@ -52,117 +48,115 @@ const Periodos = () => {
   };
 
   const onRemove = (pRemove) => {
-    const idx = listaPeriodos.findIndex((p) => p.id === pRemove.id);
-    listaPeriodos.splice(idx, 1);
-    setListaPeriodos([...listaPeriodos]);
-    localStorage.setItem("lPeriodo", JSON.stringify(listaPeriodos));
+    const updatedList = listaPeriodos.filter((p) => p.id !== pRemove.id);
+    setListaPeriodos(updatedList);
+    localStorage.setItem("lPeriodo", JSON.stringify(updatedList));
   };
 
   const onCancel = () => {
-    onNew()
+    onNew();
   };
 
   return (
-    <>
-      <Container>
-        <Container>
-          <Row>
-            <Col>
-              <Accordion defaultActiveKey="0">
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header>Cadastro de Períodos</Accordion.Header>
-                  <Accordion.Body>
-                    <Container>
-                      <Form>
-                        <Form.Group className="mb-3" controlId="formPeriodo">
-                          <Form.Label>Período:</Form.Label>
-                          <Form.Control
-                            required
-                            value={periodo.periodo}
-                            onChange={({ target }) => {
-                              setPeriodo({ ...periodo, periodo: target.value });
-                            }}
-                            type="number"
-                            placeholder="3" />
+    <Container>
+      <br />
+      <Row>
+        <h1>Períodos</h1>
+      </Row>
+      <Row>
+        <Col>
+          <Card>
+            <Card.Header>
+              <h4>Cadastro de Período</h4>
+            </Card.Header>
+            <Card.Body>
+              <Container>
+                <Form>
+                  <Form.Group className="mb-3" controlId="formPeriodo">
+                    <Form.Label>Período:</Form.Label>
+                    <Form.Control
+                      required
+                      value={periodo.periodo}
+                      onChange={({ target }) => {
+                        setPeriodo({ ...periodo, periodo: target.value });
+                      }}
+                      type="number"
+                      placeholder="3"
+                    />
+                  </Form.Group>
 
-                          <Form.Control.Feedback type="invalid">
-                            Por favor, informe um período válido!
-                          </Form.Control.Feedback>
-                        </Form.Group>
+                  <Form.Group className="mb-3" controlId="formMaterias">
+                    <Form.Label>Matérias:</Form.Label>
+                    <Form.Control
+                      required
+                      value={periodo.materias}
+                      onChange={({ target }) => {
+                        setPeriodo({ ...periodo, materias: target.value });
+                      }}
+                      type="text"
+                      placeholder="Matérias presentes no período informado"
+                    />
+                  </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="formMaterias">
-                          <Form.Label>Matérias:</Form.Label>
-                          <Form.Control
-                            required
-                            value={periodo.materias}
-                            onChange={({ target }) => {
-                              setPeriodo({ ...periodo, materias: target.value });
-                            }}
-                            type="text"
-                            placeholder="Matérias presentes no período informado" />
-
-                          <Form.Control.Feedback type="invalid">
-                            Por favor, informe ao menos uma matéria!
-                          </Form.Control.Feedback>
-                        </Form.Group>
-                        <Button variant="success" onClick={onSave}>Salvar</Button>{' '}
-                        <Button variant="danger" onClick={onCancel}>Cancelar</Button>
-                      </Form>
-                    </Container>
-
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-            </Col>
-          </Row>
-        </Container>
-        <Row>
-          <Col>
-            <Table responsive>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Período</th>
-                  <th>Matérias</th>
-                  <th></th>
+                  <Button variant="success" onClick={onSave}>
+                    Salvar
+                  </Button>{" "}
+                  <Button variant="danger" onClick={onCancel}>
+                    Cancelar
+                  </Button>
+                </Form>
+              </Container>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <br />
+      <Row>
+        <h4>Lista de Professores:</h4>
+      </Row>
+      <Row>
+        <Col>
+          <Table responsive>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Período</th>
+                <th>Matérias</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {listaPeriodos.map((periodoAux) => (
+                <tr key={periodoAux.id}>
+                  <td>{periodoAux.id}</td>
+                  <td>{periodoAux.periodo}</td>
+                  <td>{periodoAux.materias}</td>
+                  <td>
+                    <Button
+                      onClick={() => {
+                        onEdit(periodoAux);
+                      }}
+                      variant="primary"
+                    >
+                      Editar
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        onRemove(periodoAux);
+                      }}
+                      variant="danger"
+                    >
+                      Remover
+                    </Button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {listaPeriodos.map((periodoAux) => {
-                  return (
-                    <tr>
-                      <td>{periodoAux.id}</td>
-                      <td>{periodoAux.periodo}</td>
-                      <td>{periodoAux.materias}</td>
-                      <td>
-                        <Button
-                          onClick={() => {
-                            onEdit(periodoAux);
-                          }}
-                          variant="success"
-                        >
-                          Editar
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            onRemove(periodoAux);
-                          }}
-                          variant="danger"
-                        >
-                          Remover
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })
-                }
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
-      </Container>
-    </>
+              ))}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};
 
 export default Periodos;

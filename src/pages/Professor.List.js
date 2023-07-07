@@ -1,44 +1,45 @@
-import Table from "react-bootstrap/Table";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import { useState, useEffect } from "react";
+import {
+  Table,
+  Container,
+  Row,
+  Col,
+  Button,
+  Form,
+  Card
+} from "react-bootstrap";
+
 
 const Professor = () => {
-  const [listaP, setListaP] = useState([]);
+
+  const [listaProf, setListaProf] = useState([]);
   const [prof, setProf] = useState({ name: "", cpf: "", id: 0 });
   const [modeForm, setModeForm] = useState("create");
 
   useEffect(() => {
     const objStr = localStorage.getItem("lProfessor");
     const objLista = JSON.parse(objStr);
-    setListaP(objLista);
+    setListaProf(objLista || []);
   }, []);
+
   const onSave = () => {
     if (modeForm === "create") {
-      
-      if (listaP === null) {
-        prof.id = 1;
-        setListaP([prof]);
-      } else {
-        prof.id = listaP.length + 1;
-        setListaP([...listaP, prof]);
-      }
+      prof.id = listaProf.length + 1;
+      listaProf.push(prof);
+      setListaProf([...listaProf]);
     }
 
     if (modeForm === "edit") {
-      const pAux = listaP.find((p) => p.id === prof.id);
+      const pAux = listaProf.find((p) => p.id === prof.id);
       pAux.name = prof.name;
       pAux.cpf = prof.cpf;
-      setListaP([...listaP]);
+      setListaProf([...listaProf]);
     }
-    localStorage.setItem("lProfessor", JSON.stringify(listaP));
+    localStorage.setItem("lProfessor", JSON.stringify(listaProf));
     setProf({ name: "", cpf: "" });
   };
 
-  const pree = (pAux) => {
+  const onEdit = (pAux) => {
     setProf(pAux);
     setModeForm("edit");
   };
@@ -49,95 +50,105 @@ const Professor = () => {
   };
 
   const onRemove = (pRemove) => {
-    const idx = listaP.findIndex((p) => p.id === pRemove.id);
-    listaP.splice(idx, 1);
-    setListaP([...listaP]);
-    localStorage.setItem("lProfessor", JSON.stringify(listaP));
+    const idx = listaProf.findIndex((p) => p.id === pRemove.id);
+    listaProf.splice(idx, 1);
+    setListaProf([...listaProf]);
+    localStorage.setItem("lProfessor", JSON.stringify(listaProf));
   };
 
   return (
     <Container>
-      <Container>
-        <Row>
-          <Col>Formulario</Col>
-        </Row>
-        <Row>
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Nome:</Form.Label>
-              <Form.Control
-                value={prof.name}
-                onChange={({ target }) => {
-                  setProf({ ...prof, name: target.value });
-                }}
-                type="text"
-                placeholder="Enter name"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>CPF:</Form.Label>
-              <Form.Control
-                value={prof.cpf}
-                type="text"
-                onChange={({ target }) => {
-                  setProf({ ...prof, cpf: target.value });
-                }}
-                placeholder="Enter cpf"
-              />
-            </Form.Group>
-
-            <Button variant="primary" onClick={onSave}>
-              Salvar
-            </Button>
-            <Button variant="primary" onClick={onNew}>
-              Novo
-            </Button>
-          </Form>
-        </Row>
-      </Container>
+      <br />
       <Row>
-        <Col>Lista Professores</Col>
+        <h1>Professores</h1>
       </Row>
       <Row>
         <Col>
-          <Table striped bordered hover>
+          <Card>
+            <Card.Header>
+              <h4>Cadastrar Professor</h4>
+            </Card.Header>
+            <Card.Body>
+              <Container>
+                <Form>
+                  <Form.Group className="mb-3" controlId="fromProfessor">
+                    <Form.Label>Professor:</Form.Label>
+                    <Form.Control
+                      required
+                      value={prof.name}
+                      onChange={({ target }) => {
+                        setProf({ ...prof, name: target.value });
+                      }}
+                      type="text"
+                      placeholder="Digite aqui o nome do Professor"
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="formCpf">
+                    <Form.Label>CPF:</Form.Label>
+                    <Form.Control
+                      required
+                      value={prof.cpf}
+                      onChange={({ target }) => {
+                        setProf({ ...prof, cpf: target.value });
+                      }}
+                      type="text"
+                      placeholder="000.000.000-00"
+                    />
+                  </Form.Group>
+
+                  <Button variant="success" onClick={onSave}>
+                    Salvar
+                  </Button>{" "}
+                  <Button variant="danger" onClick={onNew}>
+                    Cancelar
+                  </Button>
+                </Form>
+              </Container>
+            </Card.Body>
+          </Card>
+
+        </Col>
+      </Row>
+      <br />
+      <Row>
+        <h4>Lista de Professores</h4>
+      </Row>
+      <Row>
+        <Col>
+          <Table responsive>
             <thead>
               <tr>
                 <th>#</th>
-                <th>Name</th>
+                <th>Professor</th>
                 <th>CPF</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {listaP.map((pAux) => {
-                  return (
-                    <tr>
-                      <td>{pAux.id}</td>
-                      <td>{pAux.name}</td>
-                      <td>{pAux.cpf}</td>
-                      <td>
-                        <Button
-                          onClick={() => {
-                            pree(pAux);
-                          }}
-                          variant="warning"
-                        >
-                          Editar
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            onRemove(pAux);
-                          }}
-                          variant="danger"
-                        >
-                          Remover
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
+              {listaProf.map((profAux) => (
+                <tr key={profAux.id}>
+                  <td>{profAux.id}</td>
+                  <td>{profAux.name}</td>
+                  <td>{profAux.cpf}</td>
+                  <td>
+                    <Button
+                      onClick={() => {
+                        onEdit(profAux);
+                      }}
+                      variant="primary">
+                      Editar
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        onRemove(profAux);
+                      }}
+                      variant="danger">
+                      Remover
+                    </Button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </Col>
