@@ -12,18 +12,17 @@ import {
 const Cursos = () => {
 
   const [listaCursos, setListaCursos] = useState([]);
-  const [curso, setCurso] = useState({ curso: "", sala: "", periodo: "", id: 0 });
+  const [curso, setCurso] = useState({ curso: "", periodo: "", id: 0 });
   const [modeForm, setModeForm] = useState("create");
-  const [listaPeriodos, setListaPeriodos] = useState([]);
+  const [listaPeriodo, setListaPeriodo] = useState([]);
 
   useEffect(() => {
     const objStr = localStorage.getItem("lCurso");
     const objLista = JSON.parse(objStr);
     setListaCursos(objLista || []);
 
-    const listaPeriodosAux = JSON.parse(localStorage.lPeriodo);
-    setListaPeriodos(listaPeriodosAux || []);
-
+    const listaPeriodosAux = localStorage.lPeriodo === undefined ? [] : JSON.parse(localStorage.lPeriodo);
+    setListaPeriodo(listaPeriodosAux || []);
   }, []);
 
   const onSave = () => {
@@ -36,7 +35,6 @@ const Cursos = () => {
     if (modeForm === "edit") {
       const cursoAux = listaCursos.find((p) => p.id === curso.id);
       cursoAux.curso = curso.curso;
-      cursoAux.sala = curso.sala;
       cursoAux.periodo = curso.periodo;
       setListaCursos([...listaCursos]);
     }
@@ -51,7 +49,7 @@ const Cursos = () => {
 
   const onNew = () => {
     setModeForm("create");
-    setCurso({ curso: "", sala: "", periodo: ""});
+    setCurso({ curso: "", periodo: ""});
   };
 
   const onRemove = (pRemove) => {
@@ -93,38 +91,19 @@ const Cursos = () => {
                     />
                   </Form.Group>
 
-                  <Form.Label>Sala:</Form.Label>
-                  <Form.Group className="mb-3" controlId="formPeriodo">
-                    <Form.Select aria-label="Selecione a periodo do curso">
-                      <option value="">Selecione a sala do curso</option>
-                      {
-                        listaPeriodos.map((salaAux) => {
-                          return (
-                            <option key={salaAux.id} value={salaAux.sala}
-                              onChange={
-                                ({ target }) => {
-                                  setCurso({ ...curso, sala: target.value });
-                                }}>
-                              {salaAux.sala}
-                            </option>
-                          )
-                        })
-                      }
-                    </Form.Select>
-                  </Form.Group>
-
                   <Form.Label>Período:</Form.Label>
                   <Form.Group className="mb-3" controlId="formPeriodo">
                     <Form.Select aria-label="Selecione a periodo do curso">
                       <option value="">Selecione o período do curso</option>
                       {
-                        listaPeriodos.map((periodoAux) => {
+                        listaPeriodo.map((periodo) => {
                           return (
-                            <option key={periodoAux.id} value={periodoAux.periodo}
-                              onChange={(target) => {
-                                setCurso({ ...curso, periodo: target.value });
-                              }}>
-                              {periodoAux.periodo}
+                            <option key={periodo.id} value={periodo.periodo}
+                              onChange={({ target }) => {
+                                  setCurso({ ...curso, periodo: target.value });
+                                }
+                              }>
+                              {periodo.periodo}
                             </option>
                           )
                         })
@@ -155,7 +134,6 @@ const Cursos = () => {
               <tr>
                 <th>#</th>
                 <th>Curso</th>
-                <th>Sala</th>
                 <th>Período</th>
                 <th></th>
               </tr>
@@ -165,7 +143,6 @@ const Cursos = () => {
                 <tr key={cursoAux.id}>
                   <td>{cursoAux.id}</td>
                   <td>{cursoAux.curso}</td>
-                  <td>{cursoAux.sala}</td>
                   <td>{cursoAux.periodo}</td>
                   <td>
                     <Button

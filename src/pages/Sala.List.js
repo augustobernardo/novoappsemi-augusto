@@ -12,21 +12,26 @@ import {
 const Salas = () => {
 
   const [listaSalas, setListaSalas] = useState([]);
-  const [sala, setSala] = useState({ curso: "", sala: "", periodo: "", professor: "", id: 0 });
+  const [sala, setSala] = useState({ curso: "", sala: "", periodo: "", id: 0 });
   const [modeForm, setModeForm] = useState("create");
   const [listaPeriodos, setListaPeriodos] = useState([]);
+  const [listaCurso, setListaCurso] = useState([]);
 
   useEffect(() => {
     const objStr = localStorage.getItem("lSala");
     const objLista = JSON.parse(objStr);
     setListaSalas(objLista || []);
 
-    const listaPeriodosAux = JSON.parse(localStorage.lPeriodo);
+    const listaPeriodosAux = localStorage.lPeriodo === undefined ? [] : JSON.parse(localStorage.lPeriodo);
     setListaPeriodos(listaPeriodosAux || []);
+
+    const listaCursoAux = localStorage.lCurso === undefined ? [] : JSON.parse(localStorage.lCurso);
+    setListaCurso(listaCursoAux || []);
 
   }, []);
 
   const onSave = () => {
+    debugger
     if (modeForm === "create") {
       sala.id = listaSalas.length + 1;
       listaSalas.push(sala);
@@ -51,7 +56,7 @@ const Salas = () => {
 
   const onNew = () => {
     setModeForm("create");
-    setSala({ sala: "", materias: "" });
+    setSala({ curso: "", sala: "", periodo: "" });
   };
 
   const onRemove = (pRemove) => {
@@ -81,31 +86,30 @@ const Salas = () => {
               <Container>
                 <Form>
                   <Form.Group className="mb-3" controlId="formCurso">
-                    <Form.Label>Curso:</Form.Label>
+                    <Form.Label>Sala:</Form.Label>
                     <Form.Control
                       required
-                      value={curso.curso}
+                      value={sala.curso}
                       onChange={({ target }) => {
-                        setCurso({ ...curso, curso: target.value });
+                        setSala({ ...sala, curso: target.value });
                       }}
                       type="text"
-                      placeholder="Insira aqui o curso"
+                      placeholder="Insira aqui a sala"
                     />
                   </Form.Group>
 
-                  <Form.Label>Sala:</Form.Label>
+                  <Form.Label>Curso:</Form.Label>
                   <Form.Group className="mb-3" controlId="formPeriodo">
                     <Form.Select aria-label="Selecione a periodo do curso">
-                      <option value="">Selecione a sala do curso</option>
+                      <option value="">Selecione o curso</option>
                       {
-                        listaPeriodos.map((salaAux) => {
+                        listaCurso.map((cursoAux) => {
                           return (
-                            <option key={salaAux.id} value={salaAux.sala}
-                              onChange={
-                                ({ target }) => {
-                                  setCurso({ ...curso, sala: target.value });
+                            <option key={cursoAux.id} value={cursoAux.curso}
+                              onChange={({ target }) => {
+                                  setSala({ ...sala, curso: target.value });
                                 }}>
-                              {salaAux.sala}
+                              {cursoAux.curso}
                             </option>
                           )
                         })
@@ -121,9 +125,9 @@ const Salas = () => {
                         listaPeriodos.map((periodoAux) => {
                           return (
                             <option key={periodoAux.id} value={periodoAux.periodo}
-                              onChange={(target) => {
-                                setCurso({ ...curso, periodo: target.value });
-                              }}>
+                              onChange={({ target }) => {
+                                  setSala({ ...sala, periodo: target.value });
+                                }}>
                               {periodoAux.periodo}
                             </option>
                           )
